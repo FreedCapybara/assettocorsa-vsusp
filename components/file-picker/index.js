@@ -1,21 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import styles from './file-picker.module.scss';
 import _ from 'lodash';
-
-import { buttonStyle } from '@components/elements';
-
-/* istanbul ignore next */
-const FileInput = styled.input`
-  display: none;
-`;
-
-/* istanbul ignore next */
-const FileLabel = styled.label`
-  ${({ labelStyle }) => labelStyle || buttonStyle}
-  display: block;
-  text-align: center;
-`;
 
 export class FilePicker extends React.Component {
 
@@ -50,14 +35,15 @@ export class FilePicker extends React.Component {
   };
 
   render() {
-    const { multiple, accept, label, labelStyle } = this.props;
+    const { multiple, accept, label } = this.props;
 
     return (
       <React.Fragment>
-        <FileLabel htmlFor={_.camelCase(label)} labelStyle={labelStyle}>
+        <label className={styles.fileLabel} htmlFor={_.camelCase(label)}>
           {this.props.children || label}
-        </FileLabel>
-        <FileInput
+        </label>
+        <input
+          className={styles.fileInput}
           type="file"
           id={_.camelCase(label)}
           multiple={multiple}
@@ -68,13 +54,4 @@ export class FilePicker extends React.Component {
     );
   }
 }
-
-FilePicker.propTypes = {
-  multiple: PropTypes.bool,
-  accept: PropTypes.string,
-  label: PropTypes.string,
-  labelStyle: PropTypes.string,
-  children: PropTypes.node,
-  onChange: PropTypes.func
-};
 

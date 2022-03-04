@@ -1,11 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
 import _ from 'lodash';
-
-/* istanbul ignore next */
-const DropTarget = styled.div`
-`;
 
 export class FileDrop extends React.Component {
 
@@ -106,21 +100,10 @@ export class FileDrop extends React.Component {
   render() {
 
     return (
-      <DropTarget ref={this.dropTargetRef}>
+      <div ref={this.dropTargetRef}>
         {this.props.children}
-      </DropTarget>
+      </div>
     );
   }
 }
-
-FileDrop.propTypes = {
-  multiple: PropTypes.bool,
-  accept: PropTypes.string,
-  children: PropTypes.node,
-  onDragEnter: PropTypes.func,
-  onDragLeave: PropTypes.func,
-  onDragOver: PropTypes.func,
-  onDrop: PropTypes.func,
-  onChange: PropTypes.func
-};
 
