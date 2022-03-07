@@ -80,16 +80,17 @@ export class FileDrop extends React.Component {
     const promises = [];
     for (const file of files) {
       const promise = new Promise((resolve) => {
+        const fileClone = new File([file], file.name);
         const reader = new FileReader();
         reader.onload = (e) => {
           const base64 = e.target.result;
           const data = {
-            file,
+            file: fileClone,
             base64
           };
           resolve(data);
         };
-        reader.readAsDataURL(file);
+        reader.readAsDataURL(fileClone);
       });
       promises.push(promise);
     }
