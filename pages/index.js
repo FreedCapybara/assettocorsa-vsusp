@@ -12,9 +12,11 @@ export class Home extends React.Component {
     super(props);
     this.state = {
       dragging: false,
-      fileData: null,
       files: [],
-      fileError: false
+      fileError: false,
+      suspensionsIniData: null,
+      tyresIniData: null,
+      vsuspUrl: null
     };
   }
 
@@ -34,21 +36,32 @@ export class Home extends React.Component {
   onDragLeaveDebounced = _.debounce(this.onDragLeave, 10);
 
   onFileSelected = (files) => {
-    console.log(files);
-    const file = _.first(files);
-    const newState = file ? {
+    const suspensionsIni = _.find(files, (f) => f.file.name === 'suspensions.ini');
+    const suspensionsIniData = this.processSuspensionsIni(suspensionsIni);
+    const tyresIni = _.find(files, (f) => f.file.name === 'tyres.ini');
+    const tyresIniData = this.processTyresIni(tyresIni);
+
+    const newState = {
       dragging: false,
-      fileData: file,
       files,
-      fileError: false
-    } : {
-      dragging: false,
-      fileData: null,
-      files: [],
-      fileError: true
+      fileError: false,
+      suspensionsIniData,
+      tyresIniData
     };
+
+    if (suspensionsIniData && tyresIniData) {
+      const vsuspUrl = this.generateVsuspUrl(suspensionsIniData, tyresIniData);
+      newState.vsuspUrl = vsuspUrl;
+    }
+
     this.setState(newState);
   }
+
+  processSuspensionsIni = (suspensionsIni) => {
+  };
+
+  processTyresIni = (tyresIni) => {
+  };
 
   render() {
     const file = this.state.fileData && this.state.fileData.file || {};
