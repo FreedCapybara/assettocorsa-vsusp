@@ -7,6 +7,7 @@ module.exports = {
     config.resolve.alias['@components'] = path.resolve(__dirname + '/components');
     config.resolve.alias['@pages'] = path.resolve(__dirname + '/pages');
     config.resolve.alias['@public'] = path.resolve(__dirname + '/public');
+    config.resolve.alias['@lib'] = path.resolve(__dirname + '/lib');
     config.resolve.alias['@styles'] = path.resolve(__dirname + '/styles');
 
     // camel-case style names from css modules
