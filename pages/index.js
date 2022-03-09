@@ -56,6 +56,7 @@ export class Home extends React.Component {
     if (suspensionsIniData && tyresIniData) {
       const vsuspUrl = this.createVsuspUrl(suspensionsIniData, tyresIniData);
       newState.vsuspUrl = vsuspUrl;
+      window.open(vsuspUrl, '_blank');
     }
 
     this.setState(newState);
