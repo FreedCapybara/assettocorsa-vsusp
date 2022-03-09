@@ -41,9 +41,12 @@ export class Home extends React.Component {
 
   onFileSelected = async (files) => {
     const suspensionsIni = _.find(files, (f) => f.file.name === 'suspensions.ini');
-    const suspensionsIniData = await this.processSuspensionsIni(suspensionsIni);
+    const suspensionsIniText = await this.getFileText(suspensionsIni);
+    const suspensionsIniData = acUtils.processSuspensionsIni(suspensionsIniText);
+
     const tyresIni = _.find(files, (f) => f.file.name === 'tyres.ini');
-    const tyresIniData = await this.processTyresIni(tyresIni);
+    const tyresIniText = await this.getFileText(tyresIni);
+    const tyresIniData = acUtils.processTyresIni(tyresIniText);
 
     const newState = {
       dragging: false,
@@ -62,33 +65,21 @@ export class Home extends React.Component {
     this.setState(newState);
   };
 
-  processSuspensionsIni = async (suspensionsIni) => {
-    if (!suspensionsIni) {
+  getFileText = async (fileData) => {
+    if (!fileData) {
       return null;
     }
 
-    let fileText = await fileUtils.readFileText(suspensionsIni.file);
-    fileText = acUtils.stripComments(fileText);
-    var result = acUtils.getWishboneSuspension(fileText);
-    return result;
-  };
-
-  processTyresIni = async (tyresIni) => {
-    if (!tyresIni) {
-      return null;
-    }
-
-    let fileText = await fileUtils.readFileText(tyresIni.file);
-    fileText = acUtils.stripComments(fileText);
-    const result = acUtils.getTyres(fileText);
-    return result;
+    const fileText = await fileUtils.readFileText(fileData.file);
+    return fileText;
   };
 
   createVsuspUrl = (suspensionsIniData, tyresIniData) => {
-    const data = vsuspUtils.convertSuspensionData(suspensionsIniData, tyresIniData);
+    const frontSuspensionData = vsuspUtils.convertSuspensionData(suspensionsIniData.front, tyresIniData);
+    const rearSuspensionData = vsuspUtils.convertSuspensionData(suspensionsIniData.rear, tyresIniData);
 
-    const front = vsuspUtils.generateSuspension(data);
-    const rear = front; // just duplicate the front for now
+    const front = vsuspUtils.generateSuspension(frontSuspensionData);
+    const rear = vsuspUtils.generateSuspension(rearSuspensionData);
     const prefs = vsuspUtils.generatePrefs();
 
     const result = vsuspUtils.generateVsuspUrl(front, rear, prefs);
