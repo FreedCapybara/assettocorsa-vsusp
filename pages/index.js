@@ -9,6 +9,7 @@ import { vsuspUtils } from '@lib/vsusp-utils';
 
 import { FileDrop } from '@components/file-drop';
 import { FilePicker } from '@components/file-picker';
+import { FileStatus } from '@components/file-status';
 
 export class Home extends React.Component {
 
@@ -40,22 +41,28 @@ export class Home extends React.Component {
   onDragLeaveDebounced = _.debounce(this.onDragLeave, 10);
 
   onFileSelected = async (files) => {
-    const suspensionsIni = _.find(files, (f) => f.file.name === 'suspensions.ini');
-    const suspensionsIniText = await this.getFileText(suspensionsIni);
-    const suspensionsIniData = acUtils.processSuspensionsIni(suspensionsIniText);
-
-    const tyresIni = _.find(files, (f) => f.file.name === 'tyres.ini');
-    const tyresIniText = await this.getFileText(tyresIni);
-    const tyresIniData = acUtils.processTyresIni(tyresIniText);
-
     const newState = {
+      ...this.state,
       dragging: false,
       files,
-      fileError: false,
-      suspensionsIniData,
-      tyresIniData
+      fileError: false
     };
 
+    const suspensionsIni = _.find(files, (f) => f.file.name === 'suspensions.ini');
+    if (suspensionsIni) {
+      const suspensionsIniText = await this.getFileText(suspensionsIni);
+      const suspensionsIniData = acUtils.processSuspensionsIni(suspensionsIniText);
+      newState.suspensionsIniData = suspensionsIniData;
+    }
+
+    const tyresIni = _.find(files, (f) => f.file.name === 'tyres.ini');
+    if (tyresIni) {
+      const tyresIniText = await this.getFileText(tyresIni);
+      const tyresIniData = acUtils.processTyresIni(tyresIniText);
+      newState.tyresIniData = tyresIniData;
+    }
+
+    const { suspensionsIniData, tyresIniData } = newState;
     if (suspensionsIniData && tyresIniData) {
       const vsuspUrl = this.createVsuspUrl(suspensionsIniData, tyresIniData);
       newState.vsuspUrl = vsuspUrl;
@@ -99,6 +106,17 @@ export class Home extends React.Component {
       >
         <div className={styles.mainLayout}>
 
+          <div className={styles.titleWrapper}>
+            <h1 className={styles.title}>
+              Assetto Corsa&mdash;VSusp converter
+            </h1>
+            <p className={styles.description}>
+              Convert Assetto Corsa suspension files to VSusp geometries!<br />
+              Drop your suspensions.ini and tyres.ini files here and you're good to go!<br />
+              Use <a href="https://www.racedepartment.com/downloads/assetto-corsa-car-tuner.13946/" target="_blank" rel="noopener noreferrer">Assetto Corsa Car Tuner</a> to create suspension files.
+            </p>
+          </div>
+
           {this.state.fileError && (
             <p className={styles.warning}>
               This file type is not supported. Please choose another file.
@@ -106,17 +124,32 @@ export class Home extends React.Component {
           )}
 
           <div className={styles.fileDropIndicator}>
+
             <span className={styles.fileDropIndicatorText}>
               Drag &amp; drop anywhere
             </span>
-            <FilePicker
-              label="Choose files"
-              onChange={this.onFileSelected}
-              multiple />
+
+            <FileStatus
+              fileName="suspensions.ini"
+              isPresent={!!this.state.suspensionsIniData} />
+
+            <FileStatus
+              fileName="tyres.ini"
+              isPresent={!!this.state.tyresIniData} />
+
+            {!!this.state.vsuspUrl && (
+              <a href={this.state.vsuspUrl} className={styles.vsuspLink} target="_blank" rel="noopener noreferrer">
+                Open in Vsusp &#x1f680;
+              </a>
+            )}
+
+            <div className={styles.filePickerWrapper}>
+              <FilePicker
+                label="Or browse files"
+                onChange={this.onFileSelected}
+                multiple />
+            </div>
           </div>
-
-          <a target="_blank" rel="noopener noreferrer" href={this.state.vsuspUrl}>{this.state.vsuspUrl}</a>
-
         </div>
       </FileDrop>
     );

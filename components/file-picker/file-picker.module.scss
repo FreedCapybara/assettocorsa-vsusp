@@ -1,10 +1,10 @@
+@import '@styles/buttons';
 
 .file-input {
   display: none;
 }
 
 .file-label {
-  display: block;
-  text-align: center;
+  @extend .button;
 }
 

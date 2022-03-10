@@ -1,3 +1,4 @@
+@import '@styles/_variables';
 
 .main-layout {
   display: flex;
@@ -6,6 +7,24 @@
   min-height: 100vh;
   align-items: center;
   justify-content: center;
+  position: relative;
+}
+
+.title-wrapper {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  //position: absolute;
+  //top: 0;
+}
+
+.title {
+  margin-bottom: 1rem;
+}
+
+.description {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
 }
 
 .file-drop-indicator {
@@ -17,9 +36,10 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 240px;
+  min-height: 240px;
   border: 5px dashed rgba(0, 0, 0, .5);
   max-width: 800px;
+  padding: 1.5rem;
 }
 
 .file-drop-indicator-text {
@@ -31,10 +51,20 @@
   color: rgba(0, 0, 0, .8);
 }
 
+.file-picker-wrapper {
+  margin-top: .75rem;
+}
+
 .warning {
   margin-top: 0;
   margin-bottom: 32px;
   color: red;
   font-style: italic;
+}
+
+.vsusp-link {
+  font-weight: 500;
+  font-size: 1.25rem;
+  margin: .5rem 0;
 }
 

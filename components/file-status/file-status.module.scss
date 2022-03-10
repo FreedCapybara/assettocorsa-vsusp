@@ -1,0 +1,22 @@
+@import '@styles/_variables';
+
+.file {
+  display: flex;
+  font-weight: 500;
+  font-size: 1.5rem;
+  color: $text-light-opaque;
+}
+
+.file-name-present {
+  color: rgba(0, 0, 0, .8);
+}
+
+.file-not-present {
+  margin-left: 0.5rem;
+}
+
+.file-present {
+  margin-left: 0.5rem;
+  color: #00af54;
+}
+
