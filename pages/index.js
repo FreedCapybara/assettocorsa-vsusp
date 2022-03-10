@@ -112,7 +112,7 @@ export class Home extends React.Component {
             </h1>
             <p className={styles.description}>
               Convert Assetto Corsa suspension files to VSusp geometries!<br />
-              Drop your suspensions.ini and tyres.ini files here and you're good to go!<br />
+              Drop your suspensions.ini and tyres.ini files here and you&apos;re good to go!<br />
               Use <a href="https://www.racedepartment.com/downloads/assetto-corsa-car-tuner.13946/" target="_blank" rel="noopener noreferrer">Assetto Corsa Car Tuner</a> to create suspension files.
             </p>
           </div>
