@@ -106,48 +106,50 @@ export class Home extends React.Component {
       >
         <div className={styles.mainLayout}>
 
-          <div className={styles.titleWrapper}>
-            <h1 className={styles.title}>
-              Assetto Corsa&mdash;VSusp converter
-            </h1>
-            <p className={styles.description}>
-              Convert Assetto Corsa suspension files to VSusp geometries!<br />
-              Drop your suspensions.ini and tyres.ini files here and you&apos;re good to go!<br />
-              Use <a href="https://www.racedepartment.com/downloads/assetto-corsa-car-tuner.13946/" target="_blank" rel="noopener noreferrer">Assetto Corsa Car Tuner</a> to create suspension files.
-            </p>
-          </div>
+          <div className={styles.card}>
+            <div className={styles.titleWrapper}>
+              <h1 className={styles.title}>
+                Assetto Corsa&mdash;VSusp converter
+              </h1>
+              <p className={styles.description}>
+                Convert Assetto Corsa suspension files to <a href="https://www.vsusp.com/" target="_blank" rel="noopener noreferrer">VSusp</a> geometries!<br />
+                Drop your suspensions.ini and tyres.ini files here and you&apos;re good to go!<br />
+                Use <a href="https://www.racedepartment.com/downloads/assetto-corsa-car-tuner.13946/" target="_blank" rel="noopener noreferrer">Assetto Corsa Car Tuner</a> to create suspension files.
+              </p>
+            </div>
 
-          {this.state.fileError && (
-            <p className={styles.warning}>
-              This file type is not supported. Please choose another file.
-            </p>
-          )}
-
-          <div className={styles.fileDropIndicator}>
-
-            <span className={styles.fileDropIndicatorText}>
-              Drag &amp; drop anywhere
-            </span>
-
-            <FileStatus
-              fileName="suspensions.ini"
-              isPresent={!!this.state.suspensionsIniData} />
-
-            <FileStatus
-              fileName="tyres.ini"
-              isPresent={!!this.state.tyresIniData} />
-
-            {!!this.state.vsuspUrl && (
-              <a href={this.state.vsuspUrl} className={styles.vsuspLink} target="_blank" rel="noopener noreferrer">
-                Open in Vsusp &#x1f680;
-              </a>
+            {this.state.fileError && (
+              <p className={styles.warning}>
+                This file type is not supported. Please choose another file.
+              </p>
             )}
 
-            <div className={styles.filePickerWrapper}>
-              <FilePicker
-                label="Or browse files"
-                onChange={this.onFileSelected}
-                multiple />
+            <div className={styles.fileDropIndicator}>
+
+              <span className={styles.fileDropIndicatorText}>
+                Drag &amp; drop anywhere
+              </span>
+
+              <FileStatus
+                fileName="suspensions.ini"
+                isPresent={!!this.state.suspensionsIniData} />
+
+              <FileStatus
+                fileName="tyres.ini"
+                isPresent={!!this.state.tyresIniData} />
+
+              {!!this.state.vsuspUrl && (
+                <a href={this.state.vsuspUrl} className={styles.vsuspLink} target="_blank" rel="noopener noreferrer">
+                  Open in Vsusp &#x1f680;
+                </a>
+              )}
+
+              <div className={styles.filePickerWrapper}>
+                <FilePicker
+                  label="Or browse files"
+                  onChange={this.onFileSelected}
+                  multiple />
+              </div>
             </div>
           </div>
         </div>
